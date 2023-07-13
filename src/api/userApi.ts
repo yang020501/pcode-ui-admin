@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 import protectedApi from './protectedApi';
-import { SetUserStatusRequest, User } from '@/types/user.type';
+import { SetUserStatusRequest, User, UserActionRequest } from '@/types/user.type';
 
 const userApi = {
 
@@ -12,10 +12,9 @@ const userApi = {
         const result: AxiosResponse<Array<User>> = await protectedApi.patch(`/admin/user/${request.user.id}/${request.status}`);
         return result;
     }, 
-    resetPassword: async (request: SetUserStatusRequest) => {
-        const result: AxiosResponse<Array<User>> = await protectedApi.patch(`/admin/user/${request.user.id}/${request.status}`);
+    resetPassword: async (request: UserActionRequest) => {
+        const result: AxiosResponse<Array<User>> = await protectedApi.post(`/admin/resetPassword/${request.id}`);
         return result;
-
     }
 };
 

@@ -1,9 +1,8 @@
 import { DataGrid, GridRenderCellParams, GridToolbar, GridValueFormatterParams } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 
-import { LabelToProperty, NameToField } from '@/utils/convert';
-import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
+import { LabelToProperty } from '@/utils/convert';
+
 
 interface DataGridListItemsProps {
 	rows: Array<any>;
@@ -53,11 +52,10 @@ const DataGridListItems = (props: DataGridListItemsProps) => {
 				};
 			})
 			: [];
-			console.log(Columns,Rows)
 	return (
 		<Box sx={{ height: '100%', width: '100%' }}>
 			<DataGrid
-				autoHeight
+				
 				rows={Rows}
 				columns={Columns}
 				onRowClick={(params) => onSelected(params)}

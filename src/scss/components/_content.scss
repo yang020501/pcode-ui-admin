@@ -3,6 +3,7 @@
 
     // display: none;
     margin-top: calc(#{$navbar-header-height} + 75px);
+    height: calc(100vh - #{$navbar-header-height} - 75px);
     flex-direction: column;
     // overflow: auto;
 

@@ -19,21 +19,17 @@ import { parseToLocalDate } from '@/utils/convert';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUsers } from '@/selectors/user.selector';
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
-import { fetchUsers, setUserStatus } from '@/slices/user.slice';
+import { fetchUsers, resetUserPassord, resetUserPassordError, setUserStatus } from '@/slices/user.slice';
 import { CreateAccountRequest, RegisterRequest } from '@/types/register.type';
 import CustomAlert from '@/components/Custom/CustomAlert';
 import { requestRegister } from '@/slices/register.slice';
 import { User } from '@/types/user.type';
 import { CustomOnlyIconButton } from '@/components/Custom/CustomButton';
 import { getProfile } from '@/selectors/auth.selector';
+import ResetPasswordTokenModal from '@/components/ResetPasswordTokenModal';
 
 const AccountPage = () => {
 
-  // const { rows, OpenMiniPopupAccounts, setOpenMiniPopupAccounts, selectID }: any = {};
-  // const { username, password, email, fullName, role, repassword,
-  //   dateOfBirth, onChange, onCreateAccountSubmit,
-  //   openNewAccountModal, setopenNewAccountModal, alert }: any = {};
-  // const { deleteAccount, searchData, setSearchData }: any = {};
 
   const dispatch = useDispatch();
 
@@ -54,9 +50,8 @@ const AccountPage = () => {
   const [alert, setAlert] = useState(<></>)
   const [searchData, setSearchData] = useState<Array<User>>([]);
   const [OpenMiniPopupAccounts, setOpenMiniPopupAccounts] = useState("");
-  const [rows, setRows] = useState<Array<User>>([])
-
-
+  const [OpenResetPassword, setOpenResetPassword] = useState(false);
+  const [SelectedUser, setSelectedUser] = useState<User>();
 
   const closeAlert = () => setAlert(<></>)
 
@@ -81,7 +76,13 @@ const AccountPage = () => {
             {Number(item.userStatus) === 0 ? <SpellcheckIcon /> : <BlockIcon />}
           </Tooltip>
         </CustomOnlyIconButton>,
-        'resetPassword': <Button variant='contained'>
+        'resetPassword': <Button
+          variant='contained'
+          onClick={() => {
+            setOpenResetPassword(true)
+            setSelectedUser(item)
+          }}
+        >
           Reset
         </Button>
       }
@@ -104,9 +105,21 @@ const AccountPage = () => {
         username: userForm.username
       }
       dispatch(requestRegister(Form))
+      setOpenNewAccountModal(false)
     }
 
   }
+  const onResetUserPassword = (event: FormEvent<HTMLFormElement>, selectedUser: User) => {
+
+    event.preventDefault()
+    event.stopPropagation()
+
+
+    dispatch(resetUserPassord({ id: selectedUser.id }))
+  }
+
+
+
   useEffect(() => {
     if (users === null) {
       dispatch(fetchUsers())
@@ -241,7 +254,15 @@ const AccountPage = () => {
 
         />
       </TemplateModal>
-
+      <ResetPasswordTokenModal
+        open={OpenResetPassword}
+        selectedUser={SelectedUser ? SelectedUser : null}
+        onReset={(e: FormEvent<HTMLFormElement>, selectedUser: User) => { onResetUserPassword(e, selectedUser) }}
+        onCancel={() => {
+          setOpenResetPassword(false);
+          dispatch(resetUserPassordError())
+        }}
+      />
     </Template >
   )
 }

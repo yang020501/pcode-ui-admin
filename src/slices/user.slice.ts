@@ -1,14 +1,16 @@
-import { SetUserStatusRequest, User, UserActionRequest, UserState } from '@/types/user.type';
+import { ResetUserPasswordResponse, SetUserStatusRequest, User, UserActionRequest, UserState } from '@/types/user.type';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 
 
+
 const initialState: UserState = {
-    users: null
+    users: null,
+    resetToken: null
 };
 
 const userSlice = createSlice({
-    name: 'profile',
+    name: 'user',
     initialState: initialState,
     reducers: {
         fetchUsers: (state) => {
@@ -35,17 +37,23 @@ const userSlice = createSlice({
 
         },
         resetUserPassord: (state, { payload }: PayloadAction<UserActionRequest>) => {
+            state.resetToken = null
+        },
+        resetUserPassordSuccess: (state, { payload }: PayloadAction<ResetUserPasswordResponse>) => {
+
+            state.resetToken = payload.token
 
         },
-        resetUserPassordSuccess: (state, { payload }: PayloadAction<Array<User>>) => {
-
-        },
-        resetUserPassordError: (state, { payload }: PayloadAction<Array<User>>) => {
-
+        resetUserPassordError: (state) => {
+            state.resetToken = null
         },
     }
 });
 
-export const { fetchUsers, fetchUsersError, fetchUsersSuccess, setUserStatus, setUserStatusError, setUserStatusSuccess } = userSlice.actions;
+export const {
+    fetchUsers, fetchUsersError, fetchUsersSuccess,
+    setUserStatus, setUserStatusError, setUserStatusSuccess,
+    resetUserPassord, resetUserPassordError, resetUserPassordSuccess
+} = userSlice.actions;
 
 export default userSlice.reducer;

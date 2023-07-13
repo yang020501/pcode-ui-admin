@@ -1,5 +1,6 @@
 export interface UserState {
-    users?: Array<User> | null
+    users?: Array<User> | null;
+    resetToken?: string | null 
 }
 export interface UserActionRequest {
     id: string
