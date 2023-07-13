@@ -39,7 +39,7 @@ const ResetPasswordTokenModal = (props: ResetPasswordTokenModalProps) => {
     const onCopyLink = async (e: MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
         const host = window.location.host;
-        await navigator.clipboard.writeText(`${host}/reset/${Token}`);
+        await navigator.clipboard.writeText(`${host}/reset/?token=${Token}`);
         setCopied(true);
     };
 
