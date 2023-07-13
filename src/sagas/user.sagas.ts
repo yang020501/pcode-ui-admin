@@ -4,7 +4,7 @@ import { AxiosResponse } from 'axios';
 
 
 import { fetchUsers, fetchUsersError, fetchUsersSuccess, setUserStatus, setUserStatusSuccess } from '@/slices/user.slice';
-import { SetUserStatusReuest, User } from '@/types/user.type';
+import { SetUserStatusRequest, User } from '@/types/user.type';
 import userApi from '@/api/userApi';
 import { setSnackbar } from '@/slices/snackbar.slice';
 import notificationMessage from '@/utils/notificationMessage';
@@ -34,7 +34,7 @@ function* fetchUsersSaga() {
 }
 
 
-function* setUserStatusSaga(action: PayloadAction<SetUserStatusReuest>) {
+function* setUserStatusSaga(action: PayloadAction<SetUserStatusRequest>) {
     try {
 
         const request : AxiosResponse<Array<User>> = yield call(userApi.setUserStatus, action.payload);

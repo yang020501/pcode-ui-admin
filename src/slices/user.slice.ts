@@ -1,4 +1,4 @@
-import { SetUserStatusReuest, User, UserState } from '@/types/user.type';
+import { SetUserStatusRequest, User, UserActionRequest, UserState } from '@/types/user.type';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 
@@ -21,19 +21,20 @@ const userSlice = createSlice({
         fetchUsersError: (state) => {
             state.users = null
         },
-        setUserStatus: (state, { payload }: PayloadAction<SetUserStatusReuest>) => {
+        setUserStatus: (state, { payload }: PayloadAction<SetUserStatusRequest>) => {
 
         },
-        setUserStatusSuccess: (state, { payload }: PayloadAction<SetUserStatusReuest>) => {
+        setUserStatusSuccess: (state, { payload }: PayloadAction<SetUserStatusRequest>) => {
+
             let index = state.users?.findIndex(item => item.id === payload.user.id)
-            console.log(index, "hello")
+
             if (index !== -1 && index !== null && index !== undefined)
                 state.users ? state.users[index].userStatus = payload.status : null
         },
-        setUserStatusError: (state, { payload }: PayloadAction<SetUserStatusReuest>) => {
+        setUserStatusError: (state, { payload }: PayloadAction<SetUserStatusRequest>) => {
 
         },
-        resetUserPassord: (state, { payload }: PayloadAction<Array<User>>) => {
+        resetUserPassord: (state, { payload }: PayloadAction<UserActionRequest>) => {
 
         },
         resetUserPassordSuccess: (state, { payload }: PayloadAction<Array<User>>) => {

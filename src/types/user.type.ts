@@ -11,7 +11,11 @@ export interface User {
     userStatus: number
 }
 
-export interface SetUserStatusReuest {
+export interface SetUserStatusRequest {
     user: UserActionRequest
     status: number
+}
+
+export interface ResetUserPasswordResponse {
+    token: string
 }
