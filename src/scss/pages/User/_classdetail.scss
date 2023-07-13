@@ -1,0 +1,22 @@
+.classdetail {
+    &-title {
+        @include flex(Center, center);
+        font-size: 20pt;
+        font-weight: 700;
+        padding: 10px;
+        width: 80%;
+        margin: auto;
+        &-txt {
+            width: 200%;
+            flex-grow: 1;
+        }
+        .MuiButton-root{
+            height: 50%;
+            width: 50%;
+        }
+    }
+    &-md {
+        width: 100%;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+}
