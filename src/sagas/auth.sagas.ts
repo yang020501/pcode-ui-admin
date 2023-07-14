@@ -13,12 +13,13 @@ function* loginSaga(action: PayloadAction<UserCredentials>) {
 	try {
 		yield put(setLoading({ isLoading: true }))
 		yield call(authApi.login, action.payload);
+		yield call(userApi.getUsers)
 		const profile: AxiosResponse<UserProfile> = yield call(authApi.getProfile);
 		if (profile.data) {
 			yield put(setLoading({ isLoading: false }))
 			yield put(loginSuccess(profile.data));
 		}
-		yield call(userApi.getUsers)
+	
 
 	} catch (error: any) {
 		if (error instanceof AxiosError && error.response?.status === 401) {
