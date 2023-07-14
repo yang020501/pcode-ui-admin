@@ -6,6 +6,7 @@ import { UserCredentials } from '@/types';
 import { AxiosError, AxiosResponse } from 'axios';
 import { UserProfile } from '../types/auth.type';
 import { setLoading } from '@/slices/loading.slice';
+import userApi from '@/api/userApi';
 
 function* loginSaga(action: PayloadAction<UserCredentials>) {
 
@@ -17,6 +18,7 @@ function* loginSaga(action: PayloadAction<UserCredentials>) {
 			yield put(setLoading({ isLoading: false }))
 			yield put(loginSuccess(profile.data));
 		}
+		yield call(userApi.getUsers)
 
 	} catch (error: any) {
 		if (error instanceof AxiosError && error.response?.status === 401) {
